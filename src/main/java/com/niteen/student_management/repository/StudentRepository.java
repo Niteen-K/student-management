@@ -15,5 +15,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
     List<Student> findByDepartment(String department);
     List<Student> findByAgeGreaterThan(Integer age);
     boolean existsByEmail(String email);
+    Student save(String email);
 }
 
