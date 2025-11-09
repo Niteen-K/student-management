@@ -2,6 +2,9 @@ package com.niteen.student_management.controller;
 
 import com.niteen.student_management.model.Student;
 import com.niteen.student_management.service.StudentService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,7 @@ public class StudentController {
     
     // CREATE - Add new student
     @PostMapping
-    public ResponseEntity<Student> createStudent(@RequestBody Student student) {
+    public ResponseEntity<Student> createStudent(@Valid @RequestBody Student student) {
         Student createdStudent = studentService.createStudent(student);
         return new ResponseEntity<>(createdStudent, HttpStatus.CREATED);
     }
@@ -54,7 +57,7 @@ public class StudentController {
     
     // UPDATE - Update student
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student studentDetails) {
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id,@Valid @RequestBody Student studentDetails) {
         Student updatedStudent = studentService.updateStudent(id, studentDetails);
         return ResponseEntity.ok(updatedStudent);
     }
