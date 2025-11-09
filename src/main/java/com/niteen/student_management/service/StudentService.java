@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.niteen.student_management.repository.StudentRepository;
+import com.niteen.student_management.exception.DuplicateResourceException;
+import com.niteen.student_management.exception.ResourceNotFoundException;
 import com.niteen.student_management.model.Student;
 
 @Service
@@ -27,11 +29,11 @@ public class StudentService {
     }
 
     public Student getStudentByID(Long id){
-        return studentRepository.findById(id).orElseThrow(()-> new RuntimeException("Student not found by ID"+ id));
+        return studentRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("Student not found by ID"+ id));
     }
 
     public Student getStudentByEmail(String email){
-        return studentRepository.findByEmail(email).orElseThrow(()-> new RuntimeException("STudnet not found by Email" + email));
+        return studentRepository.findByEmail(email).orElseThrow(()-> new ResourceNotFoundException("STudnet not found by Email" + email));
     }
 
     public List<Student> getStudentByDepartment(String department){
@@ -45,7 +47,7 @@ public class StudentService {
         if (studentDetails.getEmail() != null && 
             !studentDetails.getEmail().equals(student.getEmail()) &&
             studentRepository.existsByEmail(studentDetails.getEmail())) {
-            throw new RuntimeException("Email already exists: " + studentDetails.getEmail());
+            throw new DuplicateResourceException("Email already exists: " + studentDetails.getEmail());
         }
         
         // Update fields if they are provided
